@@ -2,57 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Waris Mustafa - Portfolio</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Waris Mustafa | Graphic Designer</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0; padding: 0;
+      background: #fffbea;
+      color: #1f2937;
+      line-height: 1.6;
+    }
+    header {
+      background: #facc15;
+      color: #1f2937;
+      padding: 20px;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-weight: normal;
+    }
+    .profile-photo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center center; /* Adjust this to zoom/focus */
+  border: 5px solid white;
+  margin-bottom: 10px;
+  transition: transform 0.4s ease;
+}
+
+.profile-photo:hover {
+  transform: scale(1.1);
+}
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #ca8a04;
+      border-bottom: 2px solid #ca8a04;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #facc15;
+      color: #1f2937;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+    }
+    .projects {
+      display: grid;
+      gap: 30px;
+    }
+    .project img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
+    }
+    .project h3 {
+      margin-bottom: 5px;
+    }
+    @media (max-width: 600px) {
+      main {
+        margin: 20px;
+      }
+      p {
+        font-size: 16px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <nav>
+  <header>
+    <img src="waris.jpg" alt="Waris Mustafa" class="profile-photo" />
     <h1>Waris Mustafa</h1>
-    <ul>
-      <li><a href="#home">Home</a></li>
-      <li><a href="#about">About</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#portfolio">Portfolio</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+    <p>Graphic Designer</p>
+  </header>
+  <main>
+    <section id="about">
+      <h2>About Me</h2>
+      <p>
+        Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
+      </p>
+      <p>
+        Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
+      </p>
+    </section>
 
-  <section id="home" class="hero">
-    <h2>Hello, I'm Waris Mustafa</h2>
-    <p>A passionate graphic designer based in Pakistan.</p>
-    <p>Specializing in logo design, branding, social media graphics, and more.</p>
-  </section>
-
-  <section id="about">
-    <h2>About Me</h2>
-    <p>I’ve been designing for 4+ years. I started with personal passion and now help clients build strong visual identities.</p>
-  </section>
-
-  <section id="services">
-    <h2>Services</h2>
-    <ul>
-      <li>Logo Design</li>
-      <li>Branding</li>
-      <li>Social Media Graphics</li>
-      <li>Print Designing</li>
-      <li>Poster and Banner Design</li>
-    </ul>
-  </section>
-
-  <section id="portfolio">
-    <h2>Portfolio</h2>
-    <p>Portfolio items will be added soon.</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p>Email: waris@example.com</p>
-    <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
-  </section>
-
+    <section id="projects">
+      <h2>My Work</h2>
+      <div class="projects">
+        <div class="project">
+          <h3>Logo Design – Personal Brand</h3>
+          <img src="logo-sample.jpg" alt="Logo Design Sample" />
+          <p>A clean, modern logo created for my personal brand, focusing on simplicity and bold lines.</p>
+        </div>
+        <div class="project">
+          <h3>Instagram Post – Sample Campaign</h3>
+          <img src="social-post.jpg" alt="Social Media Post" />
+          <p>A vibrant social media design created for a fictional fashion brand.</p>
+        </div>
+        <div class="project">
+          <h3>Poster Design – University Event</h3>
+          <img src="poster.jpg" alt="Event Poster" />
+          <p>A dynamic and colorful event poster made during my university days.</p>
+        </div>
+      </div>
+    </section>
+  </main>
   <footer>
-    <p>&copy; 2025 Waris Mustafa. All rights reserved.</p>
+    &copy; 2025 Waris Mustafa. All rights reserved.
   </footer>
 </body>
 </html>
