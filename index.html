@@ -82,6 +82,30 @@
         font-size: 16px;
       }
     }
+    
+  nav {
+  background: #fde047; /* yellow */
+  padding: 10px 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+nav ul li a {
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: bold;
+}
+nav ul li a:hover {
+  text-decoration: underline;
+}
   </style>
 </head>
 <body>
@@ -90,6 +114,15 @@
     <h1>Waris Mustafa</h1>
     <p>Graphic Designer</p>
   </header>
+  <nav>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#projects">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+  
   <main>
     <section id="about">
       <h2>About Me</h2>
@@ -100,7 +133,22 @@
         Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
       </p>
     </section>
+<section id="services">
+  <h2>Services</h2>
+  <ul>
+    <li>Logo Design</li>
+    <li>Branding</li>
+    <li>Social Media Graphics</li>
+    <li>Print Designing</li>
+    <li>Poster and Banner Design</li>
+  </ul>
+</section>
 
+<section id="contact">
+  <h2>Contact</h2>
+  <p>Email: waris@example.com</p>
+  <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
+</section>
     <section id="projects">
       <h2>My Work</h2>
       <div class="projects">
