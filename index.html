@@ -11,6 +11,10 @@
       padding: 0;
       background: #fffbea;
       color: #1f2937;
+      transition: filter 0.3s ease;
+    }
+    .blurred {
+      filter: blur(5px);
     }
     header {
       background: #facc15;
@@ -86,27 +90,48 @@
       padding: 10px;
       font-weight: bold;
     }
-    .gallery {
+
+    .modal {
       display: none;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-top: 20px;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
-    .gallery img {
+
+    .modal-content {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      text-align: center;
+    }
+
+    .modal-content img {
       width: 100%;
       max-width: 300px;
       border-radius: 10px;
+      margin-bottom: 15px;
     }
-    .back-button {
-      display: none;
-      margin-top: 20px;
+
+    .close-modal {
       background: #facc15;
       color: #1f2937;
       border: none;
       padding: 10px 20px;
       border-radius: 6px;
+      font-weight: bold;
       cursor: pointer;
+      margin-bottom: 20px;
     }
+
     footer {
       text-align: center;
       padding: 15px;
@@ -114,6 +139,7 @@
       color: #1f2937;
       margin-top: 50px;
     }
+
     @media (max-width: 600px) {
       .album {
         width: 100%;
@@ -123,93 +149,96 @@
   </style>
 </head>
 <body>
-  <header>
-    <img src="waris.jpg" alt="Waris Mustafa" class="profile-photo" />
-    <h1>Waris Mustafa</h1>
-    <p>Graphic Designer</p>
-  </header>
+  <div id="site-content">
+    <header>
+      <img src="waris.jpg" alt="Waris Mustafa" class="profile-photo" />
+      <h1>Waris Mustafa</h1>
+      <p>Graphic Designer</p>
+    </header>
 
-  <nav>
-    <ul>
-      <li><a href="#about">About</a></li>
-      <li><a href="#mywork">My Work</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#mywork">My Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-  <main>
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
-      </p>
-      <p>
-        Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
-      </p>
-    </section>
+    <main>
+      <section id="about">
+        <h2>About Me</h2>
+        <p>
+          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
+        </p>
+        <p>
+          Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
+        </p>
+      </section>
 
-    <section id="mywork">
-      <h2>My Work</h2>
-      <div class="album-preview" id="albumPreview">
-        <!-- Album preview loads dynamically -->
-      </div>
+      <section id="mywork">
+        <h2>My Work</h2>
+        <div class="album-preview" id="albumPreview">
+          <!-- Album preview will be loaded here -->
+        </div>
+      </section>
 
-      <div class="gallery" id="gallery">
-        <!-- Full gallery loads dynamically -->
-      </div>
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: warismustafa.k@gmai.com</p>
+        <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
+      </section>
+    </main>
 
-      <button class="back-button" id="backBtn">← Back to Albums</button>
-    </section>
+    <footer>
+      &copy; 2025 Waris Mustafa. All rights reserved.
+    </footer>
+  </div>
 
-    <section id="contact">
-      <p>Email: warismustafa.k@gmai.com</p>
-      <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2025 Waris Mustafa. All rights reserved.
-  </footer>
+  <!-- Modal Gallery -->
+  <div class="modal" id="modal">
+    <div class="modal-content" id="modalContent">
+      <button class="close-modal" onclick="closeModal()">Close</button>
+      <!-- Gallery images will be inserted here -->
+    </div>
+  </div>
 
   <script>
-    const albumPreview = document.getElementById("albumPreview");
-    const gallery = document.getElementById("gallery");
-    const backBtn = document.getElementById("backBtn");
-
     const logosFolder = "logos/";
-
-    // Example image list — you can add as many as you upload in logos folder
     const logoImages = [
       "Englican Sports Gala logo.jpg",
+      // Add more images here in order of upload
     ];
 
-    // Show latest image as album preview
     function showAlbumPreview() {
       const latestImage = logoImages[logoImages.length - 1];
-      albumPreview.innerHTML = `
-        <div class="album" onclick="openGallery()">
+      const album = `
+        <div class="album" onclick="openModal()">
           <img src="${logosFolder + latestImage}" alt="Logos Album" />
           <div class="album-title">Logos</div>
         </div>
       `;
+      document.getElementById("albumPreview").innerHTML = album;
     }
 
-    function openGallery() {
-      albumPreview.style.display = "none";
-      gallery.style.display = "flex";
-      backBtn.style.display = "inline-block";
-      gallery.innerHTML = logoImages.map(img =>
+    function openModal() {
+      const modal = document.getElementById("modal");
+      const content = document.getElementById("modalContent");
+
+      const images = logoImages.map(img =>
         `<img src="${logosFolder + img}" alt="Logo Work" />`
       ).join('');
+      content.innerHTML = `<button class="close-modal" onclick="closeModal()">Close</button>` + images;
+
+      document.getElementById("site-content").classList.add("blurred");
+      modal.style.display = "flex";
     }
 
-    backBtn.addEventListener("click", () => {
-      gallery.style.display = "none";
-      albumPreview.style.display = "flex";
-      backBtn.style.display = "none";
-    });
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+      document.getElementById("site-content").classList.remove("blurred");
+    }
 
-    // Initialize
+    // Initialize preview
     showAlbumPreview();
   </script>
 </body>
