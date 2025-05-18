@@ -2,165 +2,244 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Logo Gallery</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0; padding: 20px;
-      background: #f0f0f0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fffbea;
+      color: #1f2937;
+      transition: filter 0.3s ease;
     }
-
-    h1 {
+    .blurred {
+      filter: blur(5px);
+    }
+    header {
+      background: #facc15;
       text-align: center;
+      padding: 20px;
+    }
+    .profile-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 5px solid white;
+      transition: transform 0.3s ease;
+    }
+    .profile-photo:hover {
+      transform: scale(1.05);
+    }
+    nav {
+      background: #fde047;
+      padding: 10px 20px;
+      text-align: center;
+    }
+    nav ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    nav ul li {
+      display: inline-block;
+      margin: 0 15px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #1f2937;
+      font-weight: bold;
+    }
+    nav ul li a:hover {
+      text-decoration: underline;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    h2 {
+      color: #ca8a04;
+      border-bottom: 2px solid #ca8a04;
+      padding-bottom: 5px;
       margin-bottom: 20px;
     }
-
-    /* Grid container for logos */
-    .logo-grid {
+    .album-preview {
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
       justify-content: center;
-      gap: 15px;
     }
-
-    /* Landscape box with fixed size */
-    .logo-box {
-      width: 320px;
-      height: 180px;
-      background: white;
-      border: 1px solid #ccc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      cursor: pointer;
+    .album {
+      width: 250px;
+      height: 250px;
+      border-radius: 10px;
+      background-color: #fff3cd;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       overflow: hidden;
-      transition: box-shadow 0.3s;
+      cursor: pointer;
+      text-align: center;
+    }
+    .album img {
+      width: 100%;
+      height: 85%;
+      object-fit: cover;
+    }
+    .album-title {
+      padding: 10px;
+      font-weight: bold;
     }
 
-    .logo-box:hover {
-      box-shadow: 0 0 10px #aaa;
-    }
-
-    /* Images scale to fit inside box, maintain aspect ratio */
-    .logo-box img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
-    }
-
-    /* Modal background */
-    .modal-bg {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(255,255,255,0.3);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+    .modal {
       display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
 
-    /* Show modal */
-    .modal-bg.active {
-      display: flex;
-    }
-
-    /* Modal content box */
     .modal-content {
-      width: 700px;
-      height: 394px; /* keep 16:9 ratio */
       background: white;
-      border-radius: 8px;
-      box-shadow: 0 0 25px rgba(0,0,0,0.3);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 90%;
+      max-height: 90%;
+      overflow: auto;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+      text-align: center;
     }
 
     .modal-content img {
-      max-width: 100%;
-      max-height: 100%;
-      object-fit: contain;
-      display: block;
+      width: 100%;
+      max-width: 300px;
+      border-radius: 10px;
+      margin-bottom: 15px;
     }
 
-    /* Close button */
-    .close-btn {
-      position: absolute;
-      top: 10px; right: 15px;
-      font-size: 28px;
+    .close-modal {
+      background: #facc15;
+      color: #1f2937;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
       font-weight: bold;
-      color: #555;
       cursor: pointer;
-      user-select: none;
+      margin-bottom: 20px;
     }
 
-    .close-btn:hover {
-      color: #000;
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #facc15;
+      color: #1f2937;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      .album {
+        width: 100%;
+        height: auto;
+      }
     }
   </style>
 </head>
 <body>
+  <div id="site-content">
+    <header>
+      <img src="waris.jpg" alt="Waris Mustafa" class="profile-photo" />
+      <h1>Waris Mustafa</h1>
+      <p>Graphic Designer</p>
+    </header>
 
-  <h1>Logo Gallery</h1>
+    <nav>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#mywork">My Work</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
 
-  <div class="logo-grid">
-    <div class="logo-box" data-src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a7/React-icon.svg" alt="React Logo" />
-    </div>
-    <div class="logo-box" data-src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/4/4f/Csharp_Logo.png" alt="C# Logo" />
-    </div>
-    <div class="logo-box" data-src="https://upload.wikimedia.org/wikipedia/commons/0/0a/JavaScript-logo.png">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0a/JavaScript-logo.png" alt="JavaScript Logo" />
-    </div>
-    <div class="logo-box" data-src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/2/27/PHP-logo.svg" alt="PHP Logo" />
-    </div>
+    <main>
+      <section id="about">
+        <h2>About Me</h2>
+        <p>
+          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
+        </p>
+        <p>
+          Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
+        </p>
+      </section>
+
+      <section id="mywork">
+        <h2>My Work</h2>
+        <div class="album-preview" id="albumPreview">
+          <!-- Album preview will be loaded here -->
+        </div>
+      </section>
+
+      <section id="contact">
+        <h2>Contact</h2>
+        <p>Email: warismustafa.k@gmai.com</p>
+        <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
+      </section>
+    </main>
+
+    <footer>
+      &copy; 2025 Waris Mustafa. All rights reserved.
+    </footer>
   </div>
 
-  <!-- Modal -->
-  <div class="modal-bg" id="modal">
-    <div class="modal-content">
-      <span class="close-btn" id="closeBtn">&times;</span>
-      <img src="" alt="Logo Large View" id="modalImg" />
+  <!-- Modal Gallery -->
+  <div class="modal" id="modal">
+    <div class="modal-content" id="modalContent">
+      <button class="close-modal" onclick="closeModal()">Close</button>
+      <!-- Gallery images will be inserted here -->
     </div>
   </div>
 
   <script>
-    // Get modal elements
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modalImg');
-    const closeBtn = document.getElementById('closeBtn');
+    const logosFolder = "logos/";
+    const logoImages = [
+      "Englican Sports Gala logo.jpg",
+      // Add more images here in order of upload
+    ];
 
-    // Add click listeners on all logo boxes
-    document.querySelectorAll('.logo-box').forEach(box => {
-      box.addEventListener('click', () => {
-        const src = box.getAttribute('data-src');
-        modalImg.src = src;
-        modal.classList.add('active');
-      });
-    });
+    function showAlbumPreview() {
+      const latestImage = logoImages[logoImages.length - 1];
+      const album = `
+        <div class="album" onclick="openModal()">
+          <img src="${logosFolder + latestImage}" alt="Logos Album" />
+          <div class="album-title">Logos</div>
+        </div>
+      `;
+      document.getElementById("albumPreview").innerHTML = album;
+    }
 
-    // Close modal when clicking close button
-    closeBtn.addEventListener('click', () => {
-      modal.classList.remove('active');
-      modalImg.src = '';
-    });
+    function openModal() {
+      const modal = document.getElementById("modal");
+      const content = document.getElementById("modalContent");
 
-    // Close modal when clicking outside modal-content
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        modalImg.src = '';
-      }
-    });
+      const images = logoImages.map(img =>
+        `<img src="${logosFolder + img}" alt="Logo Work" />`
+      ).join('');
+      content.innerHTML = `<button class="close-modal" onclick="closeModal()">Close</button>` + images;
+
+      document.getElementById("site-content").classList.add("blurred");
+      modal.style.display = "flex";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+      document.getElementById("site-content").classList.remove("blurred");
+    }
+
+    // Initialize preview
+    showAlbumPreview();
   </script>
-
 </body>
 </html>
