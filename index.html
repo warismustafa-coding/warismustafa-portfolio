@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -13,9 +13,7 @@
       color: #1f2937;
       transition: filter 0.3s ease;
     }
-    .blurred {
-      filter: blur(5px);
-    }
+    .blurred { filter: blur(5px); }
     header {
       background: #facc15;
       text-align: center;
@@ -29,9 +27,7 @@
       border: 5px solid white;
       transition: transform 0.3s ease;
     }
-    .profile-photo:hover {
-      transform: scale(1.05);
-    }
+    .profile-photo:hover { transform: scale(1.05); }
     nav {
       background: #fde047;
       padding: 10px 20px;
@@ -51,9 +47,7 @@
       color: #1f2937;
       font-weight: bold;
     }
-    nav ul li a:hover {
-      text-decoration: underline;
-    }
+    nav ul li a:hover { text-decoration: underline; }
     main {
       max-width: 900px;
       margin: 40px auto;
@@ -131,7 +125,7 @@
       display: flex;
       flex-direction: row;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: flex-start;
       gap: 20px;
     }
     .logo-grid img {
@@ -151,8 +145,9 @@
       gap: 10px;
     }
     .preview img {
-      max-width: 120%;
-      max-height: 115vh;
+      max-width: 100%;
+      max-height: 80vh;
+      cursor: pointer;
     }
     .preview .caption {
       font-size: 18px;
@@ -160,29 +155,30 @@
       color: #1f2937;
     }
     .back-button {
-      padding: 8px 16px;
+      margin-top: 5px;
+      padding: 5px 15px;
       background-color: #facc15;
+      color: #1f2937;
       border: none;
       border-radius: 5px;
       font-weight: bold;
       cursor: pointer;
-      margin-top: 10px;
     }
 
-    .fullscreen-preview {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0,0,0,0.9);
-      display: none;
+    .fullscreen {
+      background: #000;
+      display: flex;
       justify-content: center;
       align-items: center;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
       z-index: 2000;
     }
-    .fullscreen-preview img {
-      max-width: 95%;
-      max-height: 95%;
+    .fullscreen img {
+      max-width: 100vw;
+      max-height: 100vh;
+      object-fit: contain;
     }
 
     footer {
@@ -261,9 +257,9 @@
     </div>
   </div>
 
-  <!-- Fullscreen preview -->
-  <div class="fullscreen-preview" id="fullscreenPreview" onclick="closeFullscreen()">
-    <img id="fullscreenImg" src="" alt="Full Preview" />
+  <!-- Fullscreen Preview -->
+  <div class="fullscreen" id="fullscreen" style="display: none;">
+    <img id="fullscreenImage" src="" alt="Full Preview">
   </div>
 
   <script>
@@ -271,7 +267,8 @@
       "Englican Sports Gala logo.jpg",
       "IELL Doctoral Symposium 2024.jpg"
     ];
-    let lastPreviewedImage = null;
+
+    let lastPreviewed = null;
 
     function openModal() {
       const gallery = document.getElementById("modalGallery");
@@ -292,42 +289,35 @@
     }
 
     function previewLogo(src, title) {
+      lastPreviewed = { src, title };
       const gallery = document.getElementById("modalGallery");
-
-      if (lastPreviewedImage === src) {
-        openFullscreen(src);
-        return;
-      }
-
-      lastPreviewedImage = src;
-
       gallery.innerHTML = `
         <div class="preview">
-          <img src="${src}" alt="${title}" onclick="previewLogo('${src}', '${title}')"/>
+          <img src="${src}" alt="${title}" onclick="openFullscreen('${src}')" />
           <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
-          <button class="back-button" onclick="goBackToGallery()">Back to Gallery</button>
+          <button class="back-button" onclick="openModal()">Back to Gallery</button>
         </div>
       `;
     }
 
-    function goBackToGallery() {
-      lastPreviewedImage = null;
-      openModal();
-    }
-
     function openFullscreen(src) {
-      document.getElementById("fullscreenImg").src = src;
-      document.getElementById("fullscreenPreview").style.display = "flex";
+      const fs = document.getElementById("fullscreen");
+      const img = document.getElementById("fullscreenImage");
+      img.src = src;
+      fs.style.display = "flex";
     }
 
     function closeFullscreen() {
-      document.getElementById("fullscreenPreview").style.display = "none";
-      previewLogo(lastPreviewedImage, lastPreviewedImage.split('/').pop());
+      document.getElementById("fullscreen").style.display = "none";
+      if (lastPreviewed) {
+        previewLogo(lastPreviewed.src, lastPreviewed.title);
+      }
     }
 
+    // ESC handling
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        const fs = document.getElementById("fullscreenPreview");
+        const fs = document.getElementById("fullscreen");
         if (fs.style.display === "flex") {
           closeFullscreen();
         } else {
@@ -335,6 +325,8 @@
         }
       }
     });
+
+    document.getElementById("fullscreen").addEventListener("click", closeFullscreen);
   </script>
 </body>
 </html>
