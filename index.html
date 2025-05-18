@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -13,17 +13,14 @@
       color: #1f2937;
       transition: filter 0.3s ease;
     }
-
     .blurred {
       filter: blur(5px);
     }
-
     header {
       background: #facc15;
       text-align: center;
       padding: 20px;
     }
-
     .profile-photo {
       width: 200px;
       height: 200px;
@@ -32,44 +29,36 @@
       border: 5px solid white;
       transition: transform 0.3s ease;
     }
-
     .profile-photo:hover {
       transform: scale(1.05);
     }
-
     nav {
       background: #fde047;
       padding: 10px 20px;
       text-align: center;
     }
-
     nav ul {
       list-style: none;
       padding: 0;
       margin: 0;
     }
-
     nav ul li {
       display: inline-block;
       margin: 0 15px;
     }
-
     nav ul li a {
       text-decoration: none;
       color: #1f2937;
       font-weight: bold;
     }
-
     nav ul li a:hover {
       text-decoration: underline;
     }
-
     main {
       max-width: 900px;
       margin: 40px auto;
       padding: 0 20px;
     }
-
     h2 {
       color: #ca8a04;
       border-bottom: 2px solid #ca8a04;
@@ -88,13 +77,11 @@
       text-align: center;
       margin: auto;
     }
-
     .album img {
       width: 100%;
       height: 85%;
       object-fit: cover;
     }
-
     .album-title {
       padding: 10px;
       font-weight: bold;
@@ -111,7 +98,6 @@
       align-items: center;
       z-index: 1000;
     }
-
     .modal-content {
       background: white;
       padding: 20px;
@@ -122,8 +108,10 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
       position: relative;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
     }
-
     .close-modal {
       position: absolute;
       top: 10px;
@@ -135,12 +123,12 @@
       color: #333;
       cursor: pointer;
     }
-
     .modal-header {
       font-size: 24px;
       font-weight: bold;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       color: #ca8a04;
+      user-select: none;
     }
 
     .logo-grid {
@@ -149,8 +137,8 @@
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
+      user-select: none;
     }
-
     .logo-grid img {
       width: 300px;
       height: 300px;
@@ -159,6 +147,10 @@
       cursor: pointer;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       background: #fff;
+      transition: transform 0.2s ease;
+    }
+    .logo-grid img:hover {
+      transform: scale(1.05);
     }
 
     .preview {
@@ -166,45 +158,44 @@
       flex-direction: column;
       align-items: center;
       gap: 10px;
+      cursor: pointer;
+      user-select: none;
     }
-
     .preview img {
-      max-width: 90vw;
-      max-height: 85vh;
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
     }
-
-    .caption {
+    .preview img:hover {
+      transform: scale(1.05);
+    }
+    .preview .caption {
       font-size: 18px;
       font-weight: bold;
       color: #1f2937;
+      user-select: text;
     }
 
-    .fullscreen-preview {
+    /* Fullscreen preview */
+    #fullscreenPreview {
       display: none;
       position: fixed;
       top: 0; left: 0;
-      width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 2000;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.95);
       justify-content: center;
       align-items: center;
+      z-index: 2000;
+      cursor: pointer;
     }
-
-    .fullscreen-preview img {
+    #fullscreenPreview img {
       max-width: 100vw;
       max-height: 100vh;
-    }
-
-    .fullscreen-preview .close-fullscreen {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 30px;
-      font-weight: bold;
-      cursor: pointer;
-      background: none;
-      border: none;
+      object-fit: contain;
+      user-select: none;
     }
 
     footer {
@@ -220,10 +211,13 @@
         width: 100%;
         height: auto;
       }
-
       .logo-grid {
         flex-direction: column;
         align-items: center;
+      }
+      .logo-grid img {
+        width: 90vw;
+        height: auto;
       }
     }
   </style>
@@ -284,10 +278,9 @@
     </div>
   </div>
 
-  <!-- Fullscreen Preview -->
-  <div class="fullscreen-preview" id="fullscreenPreview">
-    <button class="close-fullscreen" onclick="closeFullscreen()">×</button>
-    <img id="fullscreenImage" src="" alt="Fullscreen Preview">
+  <!-- Fullscreen preview -->
+  <div id="fullscreenPreview" onclick="closeFullscreen()">
+    <img id="fullscreenImage" src="" alt="Full screen preview" />
   </div>
 
   <script>
@@ -315,6 +308,7 @@
     function closeModal() {
       document.getElementById("modal").style.display = "none";
       document.getElementById("site-content").classList.remove("blurred");
+      previewedOnce = false;
     }
 
     function previewLogo(imgElement, title) {
@@ -346,8 +340,14 @@
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        closeModal();
-        closeFullscreen();
+        const fullscreen = document.getElementById("fullscreenPreview");
+        const modal = document.getElementById("modal");
+
+        if (fullscreen.style.display === "flex") {
+          closeFullscreen();
+        } else if (modal.style.display === "flex") {
+          closeModal();
+        }
       }
     });
   </script>
