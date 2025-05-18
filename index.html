@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
+    /* (Same CSS as before, omitted here for brevity) */
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -65,7 +66,6 @@
       padding-bottom: 5px;
       margin-bottom: 20px;
     }
-
     .album {
       width: 250px;
       height: 250px;
@@ -86,7 +86,6 @@
       padding: 10px;
       font-weight: bold;
     }
-
     .modal {
       display: none;
       position: fixed;
@@ -126,7 +125,6 @@
       margin-bottom: 20px;
       color: #ca8a04;
     }
-
     .logo-grid {
       display: flex;
       flex-direction: row;
@@ -143,7 +141,6 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       background: #fff;
     }
-
     .preview {
       display: flex;
       flex-direction: column;
@@ -175,8 +172,6 @@
       background-color: #ca8a04;
       color: white;
     }
-
-    /* Fullscreen preview */
     #fullscreenPreview {
       display: none;
       position: fixed;
@@ -194,7 +189,6 @@
       object-fit: contain;
       cursor: zoom-out;
     }
-
     footer {
       text-align: center;
       padding: 15px;
@@ -202,7 +196,6 @@
       color: #1f2937;
       margin-top: 50px;
     }
-
     @media (max-width: 600px) {
       .album {
         width: 100%;
@@ -226,7 +219,6 @@
       <h1>Waris Mustafa</h1>
       <p>Graphic Designer</p>
     </header>
-
     <nav>
       <ul>
         <li><a href="#about">About</a></li>
@@ -234,7 +226,6 @@
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
-
     <main>
       <section id="about">
         <h2>About Me</h2>
@@ -245,7 +236,6 @@
           Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
         </p>
       </section>
-
       <section id="mywork">
         <h2>My Work</h2>
         <div class="album" onclick="openModal()">
@@ -253,14 +243,12 @@
           <div class="album-title">Logos</div>
         </div>
       </section>
-
       <section id="contact">
         <h2>Contact</h2>
         <p>Email: warismustafa.k@gmai.com</p>
         <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
       </section>
     </main>
-
     <footer>
       &copy; 2025 Waris Mustafa. All rights reserved.
     </footer>
@@ -286,10 +274,10 @@
       "IELL Doctoral Symposium 2024.jpg"
     ];
 
-    // Track click states per logo
+    // Map to keep track of clicks on each logo (0: none, 1: preview open, 2: fullscreen open)
     const logoClickState = new Map();
 
-    // Track which logo is currently previewed (for returning from fullscreen)
+    // Variables to remember current preview logo for return
     let currentPreviewSrc = null;
     let currentPreviewTitle = null;
 
@@ -305,7 +293,7 @@
       modal.style.display = "flex";
       site.classList.add("blurred");
 
-      // Reset state on modal open
+      // Reset states
       logoClickState.clear();
       currentPreviewSrc = null;
       currentPreviewTitle = null;
@@ -333,11 +321,11 @@
     function previewLogo(src, title) {
       const gallery = document.getElementById("modalGallery");
 
-      // Get current click count for this logo
+      // Get current click count for this logo, default 0
       let clicks = logoClickState.get(src) || 0;
 
       if (clicks === 0) {
-        // First click: show preview with name and back button
+        // Show single logo preview (with name and back button)
         gallery.innerHTML = `
           <div class="preview" id="previewDiv">
             <img src="${src}" alt="${title}" onclick="previewLogo('${src}', '${title}')" />
@@ -349,21 +337,20 @@
         currentPreviewSrc = src;
         currentPreviewTitle = title;
       } else if (clicks === 1) {
-        // Second click: open fullscreen preview
+        // Open fullscreen preview
         openFullscreenPreview(src, title);
         logoClickState.set(src, 2);
       } else {
-        // Reset to gallery grid
-        backToGallery();
+        // This else block can reset if needed, but here just stay on fullscreen or do nothing
       }
     }
 
     function backToGallery() {
+      // Clear state and show gallery grid again
       logoClickState.clear();
       clearPreview();
     }
 
-    // Fullscreen preview functions
     function openFullscreenPreview(src, title) {
       currentPreviewSrc = src;
       currentPreviewTitle = title;
@@ -378,15 +365,16 @@
       const fullscreen = document.getElementById("fullscreenPreview");
       fullscreen.style.display = "none";
 
-      // Instead of full gallery, go back to preview mode of current logo
+      // Return to preview of the same logo (with name + back button)
       if(currentPreviewSrc && currentPreviewTitle) {
+        logoClickState.set(currentPreviewSrc, 1); // Ensure click state is 1 so previewLogo shows preview
         previewLogo(currentPreviewSrc, currentPreviewTitle);
       } else {
         backToGallery();
       }
     }
 
-    // Keyboard support for ESC key
+    // ESC key closes fullscreen and returns to single preview
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const fullscreen = document.getElementById("fullscreenPreview");
