@@ -160,6 +160,17 @@
       color: #1f2937;
     }
 
+    .back-button {
+      margin-top: 20px;
+      background-color: #facc15;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      color: #1f2937;
+    }
+
     footer {
       text-align: center;
       padding: 15px;
@@ -266,8 +277,16 @@
         <div class="preview">
           <img src="${src}" alt="${title}" />
           <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
+          <button class="back-button" onclick="backToGallery()">← Back to Gallery</button>
         </div>
       `;
+    }
+
+    function backToGallery() {
+      const gallery = document.getElementById("modalGallery");
+      gallery.innerHTML = logoImages.map(img =>
+        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('logos/${img}', '${img}')" />`
+      ).join('');
     }
 
     window.addEventListener("keydown", (e) => {
