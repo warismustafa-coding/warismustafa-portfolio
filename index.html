@@ -140,8 +140,9 @@
     .modal-header {
       position: absolute;
       top: 10px;
-      left: 15px;
-      width: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: max-content;
       text-align: center;
       pointer-events: none;
       user-select: none;
@@ -297,7 +298,7 @@
       // Show logos right to left (so reverse the array)
       const reversed = [...logoImages].reverse();
 
-      reversed.forEach((filename, index) => {
+      reversed.forEach((filename) => {
         const caption = filename.replace(/\.[^/.]+$/, "");
         const albumDiv = document.createElement("div");
         albumDiv.className = "album";
@@ -305,7 +306,7 @@
         albumDiv.setAttribute("tabindex", "0");
         albumDiv.setAttribute("aria-label", `Open preview of logo: ${caption}`);
 
-        // On click or enter key open modal with that image
-        albumDiv.onclick = () => openModal(filename);
-        albumDiv.onkeydown = e => {
-          if (e.key === "Enter" || e.key === " ")
+        // Inner HTML for image and caption
+        albumDiv.innerHTML = `
+          <img src="${logosFolder + filename}" alt="${caption}" />
+          <div
