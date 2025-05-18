@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -67,36 +67,47 @@
     }
     .album-preview {
       display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
+      flex-wrap: nowrap;
+      gap: 15px;
+      justify-content: flex-end; /* right to left alignment */
+      overflow-x: auto;
+      padding-bottom: 10px;
     }
     .album {
-      width: 250px;
-      height: 250px;
+      width: 150px;
+      height: 150px;
       border-radius: 10px;
       background-color: #fff3cd;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       overflow: hidden;
       cursor: pointer;
       text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       transition: box-shadow 0.3s ease;
+      flex-shrink: 0; /* don't shrink */
+      position: relative;
+      direction: ltr; /* keep image & text ltr inside */
     }
     .album:hover {
       box-shadow: 0 6px 15px rgba(0,0,0,0.2);
     }
     .album img {
-      width: 100%;
-      height: 85%;
-      object-fit: cover;
-      transition: transform 0.3s ease;
-    }
-    .album:hover img {
-      transform: scale(1.05);
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      user-select: none;
+      pointer-events: none;
     }
     .album-title {
-      padding: 10px;
       font-weight: bold;
+      font-size: 14px;
+      user-select: none;
+      color: #444;
     }
 
     /* Modal styling */
@@ -110,92 +121,98 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
-      overflow-y: auto;
-      padding: 40px 20px;
+      padding: 20px;
+      box-sizing: border-box;
     }
-
     .modal-content {
       background: white;
-      padding: 20px;
       border-radius: 10px;
       max-width: 90%;
       max-height: 90%;
-      overflow-y: auto;
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-      text-align: center;
-
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    /* Landscape box for modal images */
-    .modal-image-wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      width: 320px;
-      flex-shrink: 0;
+      position: relative;
+      padding: 30px 20px 20px 20px;
+      box-sizing: border-box;
     }
-
-    .modal-content img {
-      width: 320px;
-      height: 180px;
+    .modal-header {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      width: 100%;
+      text-align: center;
+      pointer-events: none;
+      user-select: none;
+      font-weight: bold;
+      font-size: 22px;
+      color: #ca8a04;
+    }
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: transparent;
+      border: none;
+      font-size: 28px;
+      font-weight: bold;
+      color: #ca8a04;
+      cursor: pointer;
+      padding: 0;
+      user-select: none;
+      pointer-events: auto;
+      line-height: 1;
+    }
+    .modal-image-wrapper {
+      max-width: 600px;
+      max-height: 80vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .modal-image-wrapper img {
+      width: 100%;
+      height: auto;
+      max-height: 80vh;
       object-fit: contain;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      background: white;
-      transition: transform 0.3s ease;
-      cursor: zoom-in;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      user-select: none;
     }
-
-    .modal-content img:hover {
-      transform: scale(1.05);
-    }
-
     .caption {
-      margin-top: 8px;
-      font-size: 14px;
+      margin-top: 10px;
+      font-size: 16px;
       color: #555;
       word-break: break-word;
-      max-width: 320px;
+      text-align: center;
+      user-select: none;
     }
 
-    /* Responsive for mobile */
-    @media (max-width: 600px) {
-      .modal-image-wrapper {
-        width: 90vw;
-      }
-      .modal-content img {
-        width: 90vw;
-        height: calc(90vw * 9 / 16);
-      }
-      .album {
-        width: 90vw;
-        height: auto;
-      }
-      .caption {
-        max-width: 90vw;
-      }
+    /* Scrollbar styling for album preview */
+    .album-preview::-webkit-scrollbar {
+      height: 8px;
     }
-
-    .close-modal {
+    .album-preview::-webkit-scrollbar-thumb {
       background: #facc15;
-      color: #1f2937;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: bold;
-      cursor: pointer;
-      margin-bottom: 20px;
-      align-self: flex-start;
-      flex-basis: 100%;
-      max-width: 120px;
-      transition: background-color 0.3s ease;
+      border-radius: 4px;
     }
-    .close-modal:hover {
-      background-color: #eab308;
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .album {
+        width: 100px;
+        height: 100px;
+      }
+      .album img {
+        width: 70px;
+        height: 70px;
+      }
+      .modal-image-wrapper {
+        max-width: 90vw;
+        max-height: 70vh;
+      }
     }
 
     footer {
@@ -236,8 +253,8 @@
 
       <section id="mywork">
         <h2>My Work</h2>
-        <div class="album-preview" id="albumPreview">
-          <!-- Album preview will be loaded here -->
+        <div class="album-preview" id="albumPreview" aria-label="Logos Album Preview" role="list">
+          <!-- Albums will be inserted here -->
         </div>
       </section>
 
@@ -253,10 +270,15 @@
     </footer>
   </div>
 
-  <!-- Modal Gallery -->
-  <div class="modal" id="modal" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-content" id="modalContent">
-      <!-- Close button and images will be inserted here -->
+  <!-- Modal for single logo preview -->
+  <div class="modal" id="modal" tabindex="-1" aria-modal="true" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDesc">
+    <div class="modal-content">
+      <button class="close-modal" aria-label="Close Modal" onclick="closeModal()">×</button>
+      <div class="modal-header" id="modalTitle">Logos</div>
+      <div class="modal-image-wrapper">
+        <img id="modalImage" src="" alt="" />
+        <div class="caption" id="modalDesc"></div>
+      </div>
     </div>
   </div>
 
@@ -264,66 +286,26 @@
     const logosFolder = "logos/";
     const logoImages = [
       "Englican Sports Gala logo.jpg",
-      "IELL Doctoral Symposium 2024.jpg"
+      "IELL Doctoral Symposium 2024.jpg",
       // Add more images here as needed
     ];
 
     function showAlbumPreview() {
-      const latestImage = logoImages[logoImages.length - 1];
-      if (!latestImage) {
-        document.getElementById("albumPreview").innerHTML = "<p>No logos to display yet.</p>";
-        return;
-      }
-      const album = `
-        <div class="album" onclick="openModal()" role="button" tabindex="0" aria-label="Open Logos Album">
-          <img src="${logosFolder + latestImage}" alt="Logos Album" />
-          <div class="album-title">Logos</div>
-        </div>
-      `;
-      document.getElementById("albumPreview").innerHTML = album;
-    }
+      const container = document.getElementById("albumPreview");
+      container.innerHTML = ""; // Clear existing
 
-    function openModal() {
-      const modal = document.getElementById("modal");
-      const content = document.getElementById("modalContent");
+      // Show logos right to left (so reverse the array)
+      const reversed = [...logoImages].reverse();
 
-      // Generate image + caption blocks
-      const imagesHTML = logoImages.map(filename => {
-        // Remove file extension for caption (optional)
+      reversed.forEach((filename, index) => {
         const caption = filename.replace(/\.[^/.]+$/, "");
-        return `
-          <div class="modal-image-wrapper">
-            <img src="${logosFolder + filename}" alt="Logo Work - ${caption}" />
-            <div class="caption">${caption}</div>
-          </div>
-        `;
-      }).join('');
+        const albumDiv = document.createElement("div");
+        albumDiv.className = "album";
+        albumDiv.setAttribute("role", "listitem");
+        albumDiv.setAttribute("tabindex", "0");
+        albumDiv.setAttribute("aria-label", `Open preview of logo: ${caption}`);
 
-      content.innerHTML = `
-        <button class="close-modal" onclick="closeModal()" aria-label="Close Modal">Close</button>
-        ${imagesHTML}
-      `;
-
-      document.getElementById("site-content").classList.add("blurred");
-      modal.style.display = "flex";
-
-      modal.focus();
-    }
-
-    function closeModal() {
-      const modal = document.getElementById("modal");
-      modal.style.display = "none";
-      document.getElementById("site-content").classList.remove("blurred");
-      document.getElementById("modalContent").innerHTML = "";
-    }
-
-    document.getElementById("modal").addEventListener("click", function(e) {
-      if (e.target === this) {
-        closeModal();
-      }
-    });
-
-    showAlbumPreview();
-  </script>
-</body>
-</html>
+        // On click or enter key open modal with that image
+        albumDiv.onclick = () => openModal(filename);
+        albumDiv.onkeydown = e => {
+          if (e.key === "Enter" || e.key === " ")
