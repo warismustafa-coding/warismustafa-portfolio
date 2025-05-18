@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -65,6 +65,7 @@
       padding-bottom: 5px;
       margin-bottom: 20px;
     }
+
     .album {
       width: 250px;
       height: 250px;
@@ -97,7 +98,6 @@
       align-items: center;
       z-index: 1000;
     }
-
     .modal-content {
       background: white;
       padding: 20px;
@@ -109,7 +109,6 @@
       position: relative;
       text-align: center;
     }
-
     .close-modal {
       position: absolute;
       top: 10px;
@@ -121,7 +120,6 @@
       color: #333;
       cursor: pointer;
     }
-
     .modal-header {
       font-size: 24px;
       font-weight: bold;
@@ -131,19 +129,19 @@
 
     .logo-grid {
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
     }
-
     .logo-grid img {
       width: 300px;
       height: 300px;
       object-fit: contain;
       border-radius: 8px;
       cursor: pointer;
-      background: #fff;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      background: #fff;
     }
 
     .preview {
@@ -152,28 +150,23 @@
       align-items: center;
       gap: 10px;
     }
-
     .preview img {
-      max-width: 100%;
-      max-height: 75vh;
-      cursor: pointer;
+      max-width: 120%;
+      max-height: 115vh;
     }
-
     .preview .caption {
       font-size: 18px;
       font-weight: bold;
       color: #1f2937;
     }
-
-    .back-btn {
-      margin-top: 10px;
+    .back-button {
+      padding: 8px 16px;
       background-color: #facc15;
-      color: #1f2937;
-      padding: 6px 12px;
-      font-size: 14px;
       border: none;
-      border-radius: 4px;
+      border-radius: 5px;
+      font-weight: bold;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     .fullscreen-preview {
@@ -181,27 +174,15 @@
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: rgba(0,0,0,0.95);
-      display: flex;
+      background: rgba(0,0,0,0.9);
+      display: none;
       justify-content: center;
       align-items: center;
       z-index: 2000;
     }
-
     .fullscreen-preview img {
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    .fullscreen-preview .close-fullscreen {
-      position: absolute;
-      top: 20px;
-      left: 20px;
-      font-size: 30px;
-      color: white;
-      background: none;
-      border: none;
-      cursor: pointer;
+      max-width: 95%;
+      max-height: 95%;
     }
 
     footer {
@@ -244,7 +225,10 @@
       <section id="about">
         <h2>About Me</h2>
         <p>
-          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience...
+          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
+        </p>
+        <p>
+          Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
         </p>
       </section>
 
@@ -277,10 +261,9 @@
     </div>
   </div>
 
-  <!-- Fullscreen Preview -->
-  <div class="fullscreen-preview" id="fullscreenPreview" style="display:none;">
-    <button class="close-fullscreen" onclick="closeFullscreen()">×</button>
-    <img id="fullscreenImage" src="" alt="Fullscreen Preview" />
+  <!-- Fullscreen preview -->
+  <div class="fullscreen-preview" id="fullscreenPreview" onclick="closeFullscreen()">
+    <img id="fullscreenImg" src="" alt="Full Preview" />
   </div>
 
   <script>
@@ -288,9 +271,7 @@
       "Englican Sports Gala logo.jpg",
       "IELL Doctoral Symposium 2024.jpg"
     ];
-
-    let currentLogo = null;
-    let inPreviewMode = false;
+    let lastPreviewedImage = null;
 
     function openModal() {
       const gallery = document.getElementById("modalGallery");
@@ -298,12 +279,11 @@
       const site = document.getElementById("site-content");
 
       gallery.innerHTML = logoImages.map(img =>
-        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('${img}')" />`
+        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('logos/${img}', '${img}')" />`
       ).join('');
 
       modal.style.display = "flex";
       site.classList.add("blurred");
-      inPreviewMode = false;
     }
 
     function closeModal() {
@@ -311,34 +291,44 @@
       document.getElementById("site-content").classList.remove("blurred");
     }
 
-    function previewLogo(filename) {
-      currentLogo = filename;
-      inPreviewMode = true;
+    function previewLogo(src, title) {
       const gallery = document.getElementById("modalGallery");
+
+      if (lastPreviewedImage === src) {
+        openFullscreen(src);
+        return;
+      }
+
+      lastPreviewedImage = src;
+
       gallery.innerHTML = `
         <div class="preview">
-          <img src="logos/${filename}" alt="${filename}" onclick="openFullscreen('logos/${filename}')" />
-          <div class="caption">${filename.replace(/\.[^/.]+$/, '')}</div>
-          <button class="back-btn" onclick="openModal(); setTimeout(() => previewLogo('${filename}'), 100);">Back to Gallery</button>
+          <img src="${src}" alt="${title}" onclick="previewLogo('${src}', '${title}')"/>
+          <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
+          <button class="back-button" onclick="goBackToGallery()">Back to Gallery</button>
         </div>
       `;
     }
 
+    function goBackToGallery() {
+      lastPreviewedImage = null;
+      openModal();
+    }
+
     function openFullscreen(src) {
-      document.getElementById("fullscreenImage").src = src;
+      document.getElementById("fullscreenImg").src = src;
       document.getElementById("fullscreenPreview").style.display = "flex";
     }
 
     function closeFullscreen() {
       document.getElementById("fullscreenPreview").style.display = "none";
-      if (inPreviewMode && currentLogo) {
-        previewLogo(currentLogo);
-      }
+      previewLogo(lastPreviewedImage, lastPreviewedImage.split('/').pop());
     }
 
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
-        if (document.getElementById("fullscreenPreview").style.display === "flex") {
+        const fs = document.getElementById("fullscreenPreview");
+        if (fs.style.display === "flex") {
           closeFullscreen();
         } else {
           closeModal();
