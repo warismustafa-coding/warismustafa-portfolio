@@ -177,6 +177,21 @@
       color: #1f2937;
       user-select: text;
     }
+    .back-to-gallery-btn {
+      background: #ca8a04;
+      color: white;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      margin-top: 10px;
+      transition: background-color 0.3s ease;
+    }
+    .back-to-gallery-btn:hover {
+      background: #b58900;
+    }
 
     /* Fullscreen preview */
     #fullscreenPreview {
@@ -320,11 +335,21 @@
             <img src="logos/${title}" alt="${title}" />
             <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
           </div>
+          <button class="back-to-gallery-btn" onclick="backToGallery(event)">Back to Gallery</button>
         `;
         previewedOnce = true;
       } else {
         openFullscreen('logos/' + title);
       }
+    }
+
+    function backToGallery(event) {
+      event.stopPropagation(); // Prevent triggering previewLogo click
+      const gallery = document.getElementById("modalGallery");
+      gallery.innerHTML = logoImages.map(img =>
+        `<img src="logos/${img}" alt="${img}" onclick="previewLogo(this, '${img}')" />`
+      ).join('');
+      previewedOnce = false;
     }
 
     function openFullscreen(src) {
