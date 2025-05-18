@@ -156,10 +156,10 @@
     .preview {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: center; /* centered */
       gap: 10px;
-      cursor: pointer;
       user-select: none;
+      max-width: 100%;
     }
     .preview img {
       max-width: 100%;
@@ -167,6 +167,7 @@
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.15);
       transition: transform 0.2s ease;
+      cursor: pointer;
     }
     .preview img:hover {
       transform: scale(1.05);
@@ -176,18 +177,25 @@
       font-weight: bold;
       color: #1f2937;
       user-select: text;
+      max-width: 100%;
+      word-break: break-word;
+      text-align: center;
     }
     .back-to-gallery-btn {
       background: #ca8a04;
       color: white;
       border: none;
-      padding: 8px 20px;
-      border-radius: 5px;
+      padding: 6px 16px;
+      border-radius: 4px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
-      margin-top: 10px;
+      font-size: 14px;
+      align-self: center; /* centered */
       transition: background-color 0.3s ease;
+      margin-top: 0;
+      margin-bottom: 10px;
+      min-width: 140px;
     }
     .back-to-gallery-btn:hover {
       background: #b58900;
@@ -274,7 +282,7 @@
 
       <section id="contact">
         <h2>Contact</h2>
-        <p>Email: warismustafa.k@gmai.com</p>
+        <p>Email: warismustafa.k@gmail.com</p>
         <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
       </section>
     </main>
@@ -293,9 +301,9 @@
     </div>
   </div>
 
-  <!-- Fullscreen preview -->
-  <div id="fullscreenPreview" onclick="closeFullscreen()">
-    <img id="fullscreenImage" src="" alt="Full screen preview" />
+  <!-- Fullscreen Preview -->
+  <div id="fullscreenPreview" onclick="closeFullscreenPreview()">
+    <img id="fullscreenImage" src="" alt="Full Preview" />
   </div>
 
   <script>
@@ -304,18 +312,15 @@
       "IELL Doctoral Symposium 2024.jpg"
     ];
 
-    let previewedOnce = false;
-
     function openModal() {
       const gallery = document.getElementById("modalGallery");
       const modal = document.getElementById("modal");
       const site = document.getElementById("site-content");
 
       gallery.innerHTML = logoImages.map(img =>
-        `<img src="logos/${img}" alt="${img}" onclick="previewLogo(this, '${img}')" />`
+        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('logos/${img}', '${img}')" />`
       ).join('');
 
-      previewedOnce = false;
       modal.style.display = "flex";
       site.classList.add("blurred");
     }
@@ -323,55 +328,68 @@
     function closeModal() {
       document.getElementById("modal").style.display = "none";
       document.getElementById("site-content").classList.remove("blurred");
-      previewedOnce = false;
+      clearPreview();
     }
 
-    function previewLogo(imgElement, title) {
+    function clearPreview() {
+      const gallery = document.getElementById("modalGallery");
+      gallery.innerHTML = logoImages.map(img =>
+        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('logos/${img}', '${img}')" />`
+      ).join('');
+    }
+
+    // State to track clicks on a logo preview
+    const logoClickState = new Map();
+
+    function previewLogo(src, title) {
       const gallery = document.getElementById("modalGallery");
 
-      if (!previewedOnce) {
+      // Increment click count or reset
+      const clicks = logoClickState.get(src) || 0;
+      if (clicks === 0) {
+        // First click: show preview with name and Back to Gallery button below name
         gallery.innerHTML = `
-          <div class="preview" onclick="openFullscreen('logos/${title}')">
-            <img src="logos/${title}" alt="${title}" />
-            <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
+          <div class="preview" id="previewDiv">
+            <img src="${src}" alt="${title}" onclick="previewLogo('${src}', '${title}')" />
+            <div class="caption">${title}</div>
+            <button class="back-to-gallery-btn" onclick="backToGallery()">Back to Gallery</button>
           </div>
-          <button class="back-to-gallery-btn" onclick="backToGallery(event)">Back to Gallery</button>
         `;
-        previewedOnce = true;
+        logoClickState.set(src, 1);
+      } else if (clicks === 1) {
+        // Second click: open fullscreen preview without name or button
+        openFullscreenPreview(src);
+        logoClickState.set(src, 2);
       } else {
-        openFullscreen('logos/' + title);
+        // Reset to allow cycling
+        logoClickState.set(src, 0);
+        clearPreview();
       }
     }
 
-    function backToGallery(event) {
-      event.stopPropagation(); // Prevent triggering previewLogo click
-      const gallery = document.getElementById("modalGallery");
-      gallery.innerHTML = logoImages.map(img =>
-        `<img src="logos/${img}" alt="${img}" onclick="previewLogo(this, '${img}')" />`
-      ).join('');
-      previewedOnce = false;
+    function backToGallery() {
+      // Reset click states
+      logoClickState.clear();
+      clearPreview();
     }
 
-    function openFullscreen(src) {
-      const fullscreen = document.getElementById("fullscreenPreview");
-      const img = document.getElementById("fullscreenImage");
-      img.src = src;
-      fullscreen.style.display = "flex";
+    // Fullscreen preview functions
+    function openFullscreenPreview(src) {
+      document.getElementById("fullscreenImage").src = src;
+      document.getElementById("fullscreenPreview").style.display = "flex";
     }
 
-    function closeFullscreen() {
+    function closeFullscreenPreview() {
       document.getElementById("fullscreenPreview").style.display = "none";
+      backToGallery();
     }
 
-    window.addEventListener("keydown", (e) => {
+    // Keyboard support for ESC key to close fullscreen preview and return to gallery
+    document.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const fullscreen = document.getElementById("fullscreenPreview");
-        const modal = document.getElementById("modal");
-
         if (fullscreen.style.display === "flex") {
-          closeFullscreen();
-        } else if (modal.style.display === "flex") {
-          closeModal();
+          closeFullscreenPreview();
         }
       }
     });
