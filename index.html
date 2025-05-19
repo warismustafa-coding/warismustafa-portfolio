@@ -227,29 +227,18 @@
       </section>
 
       <section id="mywork">
-  <h2>My Work</h2>
-  <div class="albums-row">
-    <div class="album" onclick="openModal('logos')">
-      <img id="logos-preview" src="" alt="Logos Album" />
-      <div class="album-title">Logos</div>
-    </div>
-
-    <div class="album" onclick="openModal('banners')">
-      <img id="banners-preview" src="" alt="Banners Album" />
-      <div class="album-title">Banners</div>
-    </div>
-  </div>
-</section>
-
-      <section id="projects">
-  <h2>Projects</h2>
-  <div class="albums-row">
-    <div class="album" onclick="openModal('projects')">
-      <img id="projects-preview" src="" alt="Projects Album" />
-      <div class="album-title">12th Englican Sports Gala - IEll UoS</div>
-    </div>
-  </div>
-</section>
+        <h2>My Work</h2>
+        <div class="albums-row">
+          <div class="album" onclick="openModal('logos')">
+            <img src="logos/IELL Doctoral Symposium 2024.jpg" alt="Logos Album" />
+            <div class="album-title">Logos</div>
+          </div>
+          <div class="album" onclick="openModal('banners')">
+            <img src="banners/sample-banner.jpg" alt="Banners Album" />
+            <div class="album-title">Banners</div>
+          </div>
+        </div>
+      </section>
 
       <section id="contact">
         <h2>Contact</h2>
@@ -280,9 +269,6 @@
       ],
       banners: [
         "Englican Sports Gala Main Poster.jpg"
-      ],
-      12th Englican Sports Gala - IEll UoS: [   
-        "12th Englican Sports Gala - IEll UoS.jpg"
       ]
     };
 
@@ -351,10 +337,6 @@
         }
       }
     });
-    // Set preview images (latest in each album)
-document.getElementById("logos-preview").src = "logos/" + galleries.logos[galleries.logos.length - 1];
-document.getElementById("banners-preview").src = "banners/" + galleries.banners[galleries.banners.length - 1];
-document.getElementById("projects-preview").src = "projects/" + galleries.projects[galleries.projects.length - 1];
   </script>
 </body>
 </html>
