@@ -69,7 +69,7 @@
       overflow: hidden;
       cursor: pointer;
       text-align: center;
-      margin: auto;
+      margin: 20px auto;
     }
     .album img {
       width: 100%;
@@ -230,9 +230,13 @@
 
       <section id="mywork">
         <h2>My Work</h2>
-        <div class="album" onclick="openModal()">
+        <div class="album" onclick="openModal('logos', logoImages)">
           <img src="logos/IELL Doctoral Symposium 2024.jpg" alt="Logos Album" />
           <div class="album-title">Logos</div>
+        </div>
+        <div class="album" onclick="openModal('banners', bannerImages)">
+          <img src="banners/sample-banner.jpg" alt="Banners Album" />
+          <div class="album-title">Banners</div>
         </div>
       </section>
 
@@ -252,7 +256,7 @@
   <div class="modal" id="modal">
     <div class="modal-content" id="modalContent">
       <button class="close-modal" onclick="closeModal()">×</button>
-      <div class="modal-header">Logos</div>
+      <div class="modal-header" id="modalHeader">Gallery</div>
       <div class="logo-grid" id="modalGallery"></div>
     </div>
   </div>
@@ -268,17 +272,24 @@
       "IELL Doctoral Symposium 2024.jpg"
     ];
 
+    const bannerImages = [
+      "banner1.jpg",
+      "banner2.jpg"
+    ];
+
     let lastPreviewed = null;
 
-    function openModal() {
+    function openModal(type, images) {
       const gallery = document.getElementById("modalGallery");
       const modal = document.getElementById("modal");
+      const header = document.getElementById("modalHeader");
       const site = document.getElementById("site-content");
 
-      gallery.innerHTML = logoImages.map(img =>
-        `<img src="logos/${img}" alt="${img}" onclick="previewLogo('logos/${img}', '${img}')" />`
+      gallery.innerHTML = images.map(img =>
+        `<img src="${type}/${img}" alt="${img}" onclick="previewLogo('${type}', '${img}')" />`
       ).join('');
 
+      header.textContent = type.charAt(0).toUpperCase() + type.slice(1);
       modal.style.display = "flex";
       site.classList.add("blurred");
     }
@@ -288,14 +299,14 @@
       document.getElementById("site-content").classList.remove("blurred");
     }
 
-    function previewLogo(src, title) {
-      lastPreviewed = { src, title };
+    function previewLogo(type, filename) {
+      lastPreviewed = { type, filename };
       const gallery = document.getElementById("modalGallery");
       gallery.innerHTML = `
         <div class="preview">
-          <img src="${src}" alt="${title}" onclick="openFullscreen('${src}')" />
-          <div class="caption">${title.replace(/\.[^/.]+$/, '')}</div>
-          <button class="back-button" onclick="openModal()">Back to Gallery</button>
+          <img src="${type}/${filename}" alt="${filename}" onclick="openFullscreen('${type}/${filename}')" />
+          <div class="caption">${filename.replace(/\.[^/.]+$/, '')}</div>
+          <button class="back-button" onclick="openModal('${type}', ${type}Images)">Back to Gallery</button>
         </div>
       `;
     }
@@ -310,11 +321,11 @@
     function closeFullscreen() {
       document.getElementById("fullscreen").style.display = "none";
       if (lastPreviewed) {
-        previewLogo(lastPreviewed.src, lastPreviewed.title);
+        previewLogo(lastPreviewed.type, lastPreviewed.filename);
       }
     }
 
-    // ESC handling
+    // ESC key handling
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const fs = document.getElementById("fullscreen");
