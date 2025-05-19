@@ -241,6 +241,15 @@
   </div>
 </section>
 
+      <section id="projects">
+  <h2>Projects</h2>
+  <div class="albums-row">
+    <div class="album" onclick="openModal('projects')">
+      <img id="projects-preview" src="" alt="Projects Album" />
+      <div class="album-title">12th Englican Sports Gala - IEll UoS</div>
+    </div>
+  </div>
+</section>
 
       <section id="contact">
         <h2>Contact</h2>
@@ -271,6 +280,9 @@
       ],
       banners: [
         "Englican Sports Gala Main Poster.jpg"
+      ],
+      projects: [   
+        "12th Englican Sports Gala - IEll UoS.jpg"
       ]
     };
 
@@ -342,6 +354,7 @@
     // Set preview images (latest in each album)
 document.getElementById("logos-preview").src = "logos/" + galleries.logos[galleries.logos.length - 1];
 document.getElementById("banners-preview").src = "banners/" + galleries.banners[galleries.banners.length - 1];
+document.getElementById("projects-preview").src = "projects/" + galleries.projects[galleries.projects.length - 1];
   </script>
 </body>
 </html>
