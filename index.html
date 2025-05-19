@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -13,9 +13,7 @@
       color: #1f2937;
       transition: filter 0.3s ease;
     }
-    .blurred {
-      filter: blur(5px);
-    }
+    .blurred { filter: blur(5px); }
     header {
       background: #facc15;
       text-align: center;
@@ -211,6 +209,7 @@
       <ul>
         <li><a href="#about">About</a></li>
         <li><a href="#mywork">My Work</a></li>
+        <li><a href="#projects">Projects</a></li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </nav>
@@ -219,23 +218,33 @@
       <section id="about">
         <h2>About Me</h2>
         <p>
-          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience. I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations — combining creativity with strategy to create designs that connect and communicate.
-        </p>
-        <p>
-          Whether you’re a startup, small business, or established brand, I’m here to turn your vision into visuals that make an impact.
+          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience.
+          I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations.
         </p>
       </section>
 
+      <!-- My Work Section -->
       <section id="mywork">
         <h2>My Work</h2>
         <div class="albums-row">
           <div class="album" onclick="openModal('logos')">
-            <img src="logos/IELL Doctoral Symposium 2024.jpg" alt="Logos Album" />
+            <img id="logos-preview" src="" alt="Logos Album" />
             <div class="album-title">Logos</div>
           </div>
           <div class="album" onclick="openModal('banners')">
-            <img src="banners/sample-banner.jpg" alt="Banners Album" />
+            <img id="banners-preview" src="" alt="Banners Album" />
             <div class="album-title">Banners</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section id="projects"> <!-- Line: NEW -->
+        <h2>Projects</h2>
+        <div class="albums-row">
+          <div class="album" onclick="openModal('englican-sports-gala')">
+            <img id="englican-preview" src="" alt="Englican Gala" />
+            <div class="album-title">12th Englican Sports Gala - IEll UoS</div>
           </div>
         </div>
       </section>
@@ -252,7 +261,7 @@
     </footer>
   </div>
 
-  <!-- Modal Gallery -->
+  <!-- Modal -->
   <div class="modal" id="modal">
     <div class="modal-content" id="modalContent">
       <button class="close-modal" onclick="closeModal()">×</button>
@@ -263,13 +272,9 @@
 
   <script>
     const galleries = {
-      logos: [
-        "Englican Sports Gala logo.jpg",
-        "IELL Doctoral Symposium 2024.jpg"
-      ],
-      banners: [
-        "Englican Sports Gala Main Poster.jpg"
-      ]
+      logos: ["Englican Sports Gala logo.jpg", "IELL Doctoral Symposium 2024.jpg"],
+      banners: ["Englican Sports Gala Main Poster.jpg"],
+      "englican-sports-gala": ["poster1.jpg", "poster2.jpg"] // ← NEW LINE
     };
 
     let currentAlbum = '';
@@ -282,7 +287,7 @@
       const site = document.getElementById("site-content");
       const modalTitle = document.getElementById("modalTitle");
 
-      modalTitle.innerText = album.charAt(0).toUpperCase() + album.slice(1);
+      modalTitle.innerText = album.charAt(0).toUpperCase() + album.slice(1).replace(/-/g, ' ');
       gallery.innerHTML = galleries[album].map(img =>
         `<img src="${album}/${img}" alt="${img}" onclick="previewLogo('${album}', '${img}')" />`
       ).join('');
@@ -315,18 +320,23 @@
     function openFullscreen(src) {
       const fullWindow = window.open('', '_blank');
       fullWindow.document.write(`
-        <html>
-        <head><title>Full Preview</title><style>
+        <html><head><title>Full Preview</title>
+        <style>
           body { margin: 0; background: black; display: flex; justify-content: center; align-items: center; height: 100vh; }
           img { max-width: 100%; max-height: 100%; }
         </style></head>
         <body onclick="window.close()">
           <img src="${src}" alt="Full Preview" />
-        </body>
-        </html>
+        </body></html>
       `);
     }
 
+    // Show latest image as album preview
+    document.getElementById("logos-preview").src = "logos/" + galleries.logos[galleries.logos.length - 1];
+    document.getElementById("banners-preview").src = "banners/" + galleries.banners[galleries.banners.length - 1];
+    document.getElementById("englican-preview").src = "englican-sports-gala/" + galleries["englican-sports-gala"][galleries["englican-sports-gala"].length - 1];
+
+    // ESC key behavior
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const gallery = document.getElementById("modalGallery");
