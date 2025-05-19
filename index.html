@@ -1,8 +1,9 @@
+<!-- Replace your entire current HTML file with this -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Waris Mustafa | Graphic Designer</title>
   <style>
     body {
@@ -13,7 +14,9 @@
       color: #1f2937;
       transition: filter 0.3s ease;
     }
-    .blurred { filter: blur(5px); }
+    .blurred {
+      filter: blur(5px);
+    }
     header {
       background: #facc15;
       text-align: center;
@@ -63,14 +66,12 @@
       padding-bottom: 5px;
       margin-bottom: 20px;
     }
-
     .albums-row {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 30px;
     }
-
     .album {
       width: 250px;
       height: 250px;
@@ -90,7 +91,6 @@
       padding: 10px;
       font-weight: bold;
     }
-
     .modal {
       display: none;
       position: fixed;
@@ -102,7 +102,6 @@
       align-items: center;
       z-index: 1000;
     }
-
     .modal-content {
       background: white;
       padding: 20px;
@@ -114,7 +113,6 @@
       position: relative;
       text-align: center;
     }
-
     .close-modal {
       position: absolute;
       top: 10px;
@@ -126,14 +124,12 @@
       color: #333;
       cursor: pointer;
     }
-
     .modal-header {
       font-size: 24px;
       font-weight: bold;
       margin-bottom: 20px;
       color: #ca8a04;
     }
-
     .logo-grid {
       display: flex;
       flex-direction: row;
@@ -150,7 +146,6 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       background: #fff;
     }
-
     .preview {
       display: flex;
       flex-direction: column;
@@ -166,7 +161,6 @@
       font-weight: bold;
       color: #1f2937;
     }
-
     .back-button {
       margin-top: 10px;
       padding: 8px 14px;
@@ -176,11 +170,9 @@
       font-weight: bold;
       cursor: pointer;
     }
-
     .back-button:hover {
       background: #eab308;
     }
-
     footer {
       text-align: center;
       padding: 15px;
@@ -188,7 +180,6 @@
       color: #1f2937;
       margin-top: 50px;
     }
-
     @media (max-width: 600px) {
       .albums-row {
         flex-direction: column;
@@ -217,13 +208,9 @@
     <main>
       <section id="about">
         <h2>About Me</h2>
-        <p>
-          Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan with over 4 years of experience.
-          I specialize in logo design, branding, social media graphics, print materials, posters, banners, and invitations.
-        </p>
+        <p>Hi, I'm Waris Mustafa, a passionate graphic designer based in Pakistan...</p>
       </section>
 
-      <!-- My Work Section -->
       <section id="mywork">
         <h2>My Work</h2>
         <div class="albums-row">
@@ -238,27 +225,24 @@
         </div>
       </section>
 
-      <!-- Projects Section -->
-      <section id="projects"> <!-- Line: NEW -->
+      <section id="projects">
         <h2>Projects</h2>
         <div class="albums-row">
           <div class="album" onclick="openModal('englican-sports-gala')">
-            <img id="englican-preview" src="" alt="Englican Gala" />
-            <div class="album-title">12th Englican Sports Gala - IEll UoS</div>
+            <img id="englican-preview" src="" alt="Englican Project" />
+            <div class="album-title">12th Englican Sports Gala - IELL UoS</div>
           </div>
         </div>
       </section>
 
       <section id="contact">
         <h2>Contact</h2>
-        <p>Email: warismustafa.k@gmai.com</p>
+        <p>Email: warismustafa.k@gmail.com</p>
         <p>Instagram: <a href="https://instagram.com/warismustafa" target="_blank">@warismustafa</a></p>
       </section>
     </main>
 
-    <footer>
-      &copy; 2025 Waris Mustafa. All rights reserved.
-    </footer>
+    <footer>&copy; 2025 Waris Mustafa. All rights reserved.</footer>
   </div>
 
   <!-- Modal -->
@@ -274,7 +258,13 @@
     const galleries = {
       logos: ["Englican Sports Gala logo.jpg", "IELL Doctoral Symposium 2024.jpg"],
       banners: ["Englican Sports Gala Main Poster.jpg"],
-      "englican-sports-gala": ["poster1.jpg", "poster2.jpg"] // ← NEW LINE
+      "englican-sports-gala": ["sports1.jpg", "sports2.jpg"]
+    };
+
+    const titles = {
+      "logos": "Logos",
+      "banners": "Banners",
+      "englican-sports-gala": "12th Englican Sports Gala - IELL UoS"
     };
 
     let currentAlbum = '';
@@ -287,7 +277,7 @@
       const site = document.getElementById("site-content");
       const modalTitle = document.getElementById("modalTitle");
 
-      modalTitle.innerText = album.charAt(0).toUpperCase() + album.slice(1).replace(/-/g, ' ');
+      modalTitle.innerText = titles[album] || album;
       gallery.innerHTML = galleries[album].map(img =>
         `<img src="${album}/${img}" alt="${img}" onclick="previewLogo('${album}', '${img}')" />`
       ).join('');
@@ -320,23 +310,18 @@
     function openFullscreen(src) {
       const fullWindow = window.open('', '_blank');
       fullWindow.document.write(`
-        <html><head><title>Full Preview</title>
-        <style>
+        <html>
+        <head><title>Full Preview</title><style>
           body { margin: 0; background: black; display: flex; justify-content: center; align-items: center; height: 100vh; }
           img { max-width: 100%; max-height: 100%; }
         </style></head>
         <body onclick="window.close()">
           <img src="${src}" alt="Full Preview" />
-        </body></html>
+        </body>
+        </html>
       `);
     }
 
-    // Show latest image as album preview
-    document.getElementById("logos-preview").src = "logos/" + galleries.logos[galleries.logos.length - 1];
-    document.getElementById("banners-preview").src = "banners/" + galleries.banners[galleries.banners.length - 1];
-    document.getElementById("englican-preview").src = "englican-sports-gala/" + galleries["englican-sports-gala"][galleries["englican-sports-gala"].length - 1];
-
-    // ESC key behavior
     window.addEventListener("keydown", (e) => {
       if (e.key === "Escape") {
         const gallery = document.getElementById("modalGallery");
@@ -347,6 +332,11 @@
         }
       }
     });
+
+    // Dynamically set preview thumbnails (latest)
+    document.getElementById("logos-preview").src = "logos/" + galleries.logos.at(-1);
+    document.getElementById("banners-preview").src = "banners/" + galleries.banners.at(-1);
+    document.getElementById("englican-preview").src = "englican-sports-gala/" + galleries["englican-sports-gala"].at(-1);
   </script>
 </body>
 </html>
