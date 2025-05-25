@@ -72,14 +72,18 @@
       gap: 30px;
     }
     .album {
-      width: 250px;
-      height: 250px;
-      border-radius: 10px;
-      background-color: #fff3cd;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      overflow: hidden;
-      cursor: pointer;
-      text-align: center;
+  width: 250px;
+  height: 300px; /* previously 250px */
+  border-radius: 10px;
+  background-color: #fff3cd;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  cursor: pointer;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* keeps image on top, title on bottom */
+}
     }
     .album img {
       width: 100%;
@@ -93,12 +97,9 @@
   word-wrap: break-word;
   text-align: center;
   font-size: 16px;
-  line-height: 1.2;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  line-height: 1.3;
+  min-height: 50px; /* gives enough height for 2 lines */
+  background-color: #fff3cd; /* ensure yellow shows */
     }
     .modal {
       display: none;
